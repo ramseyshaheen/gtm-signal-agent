@@ -1,0 +1,119 @@
+# GTM Signal Agent - Target Accounts
+# Last updated: May 2026
+
+accounts:
+
+  # =========================================================
+  # DATA INFRASTRUCTURE
+  # =========================================================
+  - name: dbt Labs
+    careers_url: https://www.getdbt.com/careers
+    ats: greenhouse
+    github_org: dbt-labs
+
+  - name: Fivetran
+    careers_url: https://www.fivetran.com/careers
+    ats: greenhouse
+    github_org: fivetran
+
+  - name: Airbyte
+    careers_url: https://airbyte.com/careers
+    ats: ashby
+    github_org: airbytehq
+
+  - name: Databricks
+    careers_url: https://www.databricks.com/company/careers/open-positions
+    ats: greenhouse
+    github_org: databricks
+
+  - name: Monte Carlo
+    careers_url: https://www.montecarlodata.com/careers/
+    ats: greenhouse
+    github_org: monte-carlo-data
+
+  - name: Hightouch
+    careers_url: https://hightouch.com/careers
+    ats: ashby
+    github_org: HighTouchHQ
+
+  - name: Snowflake
+    careers_url: https://careers.snowflake.com/us/en
+    ats: workday
+    github_org: snowflakedb
+
+  # =========================================================
+  # GTM / REVOPS
+  # =========================================================
+  - name: HubSpot
+    careers_url: https://www.hubspot.com/careers/jobs
+    ats: greenhouse
+    github_org: HubSpot
+
+  - name: Intercom
+    careers_url: https://www.intercom.com/careers
+    ats: greenhouse
+    github_org: intercom
+
+  - name: Amplitude
+    careers_url: https://amplitude.com/careers
+    ats: greenhouse
+    github_org: amplitude
+
+  - name: Braze
+    careers_url: https://www.braze.com/careers
+    ats: greenhouse
+    github_org: braze-inc
+
+  - name: Klaviyo
+    careers_url: https://www.klaviyo.com/careers
+    ats: greenhouse
+    github_org: klaviyo
+
+  - name: 6sense
+    careers_url: https://6sense.com/careers
+    ats: greenhouse
+    github_org: 6sense-enterprise  # verify
+
+  # =========================================================
+  # FINTECH
+  # =========================================================
+  - name: Stripe
+    careers_url: https://stripe.com/jobs/search
+    ats: greenhouse
+    github_org: stripe
+
+  - name: Ramp
+    careers_url: https://ramp.com/careers
+    ats: ashby
+    github_org: null  # no meaningful public org
+
+  # =========================================================
+  # DEVELOPER TOOLS & INFRA
+  # =========================================================
+  - name: MongoDB
+    careers_url: https://www.mongodb.com/company/careers
+    ats: greenhouse
+    github_org: mongodb
+
+  - name: Cloudflare
+    careers_url: https://www.cloudflare.com/careers/jobs/
+    ats: greenhouse
+    github_org: cloudflare
+
+  - name: Datadog
+    careers_url: https://careers.datadoghq.com/
+    ats: greenhouse
+    github_org: DataDog
+
+  - name: Grafana Labs
+    careers_url: https://grafana.com/about/careers/
+    ats: greenhouse
+    github_org: grafana
+
+  # =========================================================
+  # AI LABS
+  # =========================================================
+  - name: Anthropic
+    careers_url: https://www.anthropic.com/careers
+    ats: greenhouse
+    github_org: anthropics
