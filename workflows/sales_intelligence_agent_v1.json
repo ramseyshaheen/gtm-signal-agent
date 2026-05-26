@@ -1,0 +1,557 @@
+{
+  "name": "Sales Intel Agent",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -560,
+        -16
+      ],
+      "id": "07525c05-975f-4ad7-bdcc-ca1e100f09e1",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -272,
+        -16
+      ],
+      "id": "9ba3b8cf-7d71-4aac-b494-4ed1313ec2ed",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "jsCode": "const company = $('Loop Over Items').item.json;\n\nreturn [{\n  json: {\n    name: company.name,\n    careers_url: company.careers_url,\n    ats: company.ats,\n    ats_token: company.ats_token,\n    github_org: company.github_org,\n    github: {\n      repos: $input.all().map(item => ({\n        name: item.json.name,\n        updated_at: item.json.updated_at,\n        pushed_at: item.json.pushed_at,\n        stars: item.json.stargazers_count,\n        forks: item.json.forks_count,\n        description: item.json.description\n      }))\n    }\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        96,
+        -16
+      ],
+      "id": "b0d7544d-a3d9-4b76-b3ec-ab37d66fb388",
+      "name": "GitHub Signals"
+    },
+    {
+      "parameters": {
+        "jsCode": "const company = $('Loop Over Items').item.json;\nconst articles = ($input.first().json.articles) || [];\n\nreturn [{\n  json: {\n    name: company.name,\n    careers_url: company.careers_url,\n    ats: company.ats,\n    ats_token: company.ats_token,\n    github_org: company.github_org,\n    news: {\n      articles: articles.map(a => ({\n        title: a.title,\n        source: a.source?.name,\n        published_at: a.publishedAt,\n        url: a.url,\n        description: a.description\n      }))\n    }\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        96,
+        -176
+      ],
+      "id": "ce9e68db-e61d-4692-9abc-4b007873d05a",
+      "name": "News Signals"
+    },
+    {
+      "parameters": {
+        "jsCode": "const accounts = [\n { name: \"dbt Labs\", careers_url: \"https://job-boards.greenhouse.io/dbtlabsinc\", ats: \"greenhouse\", github_org: \"dbt-labs\", ats_token: \"dbtlabsinc\" },\n  { name: \"Fivetran\", careers_url: \"https://www.fivetran.com/careers\", ats: \"greenhouse\", github_org: \"fivetran\", ats_token: \"fivetran\" },\n  { name: \"Airbyte\", careers_url: \"https://airbyte.com/careers\", ats: \"ashby\", github_org: \"airbytehq\", ats_token: \"airbyte\" },\n  { name: \"Databricks\", careers_url: \"https://www.databricks.com/company/careers/open-positions\", ats: \"greenhouse\", github_org: \"databricks\", ats_token: \"databricks\" },\n  { name: \"Monte Carlo\", careers_url: \"https://www.montecarlodata.com/careers/\", ats: \"ashby\", github_org: \"monte-carlo-data\", ats_token: \"montecarlodata\" },\n  { name: \"Hightouch\", careers_url: \"https://hightouch.com/careers\", ats: \"greenhouse\", github_org: \"HighTouchHQ\", ats_token: \"hightouch\" },\n  { name: \"Snowflake\", careers_url: \"https://careers.snowflake.com/us/en\", ats: \"workday\", github_org: \"snowflakedb\", ats_token: null },\n  { name: \"HubSpot\", careers_url: \"https://www.hubspot.com/careers/jobs\", ats: \"greenhouse\", github_org: \"HubSpot\", ats_token: \"hubspot\" },\n  { name: \"Intercom\", careers_url: \"https://www.intercom.com/careers\", ats: \"greenhouse\", github_org: \"intercom\", ats_token: \"intercom\" },\n  { name: \"Amplitude\", careers_url: \"https://amplitude.com/careers\", ats: \"greenhouse\", github_org: \"amplitude\", ats_token: \"amplitude\" },\n  { name: \"Braze\", careers_url: \"https://www.braze.com/careers\", ats: \"greenhouse\", github_org: \"braze-inc\", ats_token: \"braze\" },\n  { name: \"Klaviyo\", careers_url: \"https://www.klaviyo.com/careers\", ats: \"greenhouse\", github_org: \"klaviyo\", ats_token: \"klaviyo\" },\n  { name: \"6sense\", careers_url: \"https://6sense.com/about-us/careers/join-us/\", ats: null, github_org: null, ats_token: null },\n  { name: \"Stripe\", careers_url: \"https://stripe.com/jobs/search\", ats: \"greenhouse\", github_org: \"stripe\", ats_token: \"stripe\" },\n  { name: \"Ramp\", careers_url: \"https://ramp.com/careers\", ats: \"ashby\", github_org: null, ats_token: \"ramp\" },\n  { name: \"MongoDB\", careers_url: \"https://www.mongodb.com/company/careers\", ats: \"greenhouse\", github_org: \"mongodb\", ats_token: \"mongodb\" },\n  { name: \"Cloudflare\", careers_url: \"https://www.cloudflare.com/careers/jobs/\", ats: \"greenhouse\", github_org: \"cloudflare\", ats_token: \"cloudflare\" },\n  { name: \"Datadog\", careers_url: \"https://careers.datadoghq.com/\", ats: \"greenhouse\", github_org: \"DataDog\", ats_token: \"datadog\" },\n  { name: \"Grafana Labs\", careers_url: \"https://grafana.com/about/careers/\", ats: \"greenhouse\", github_org: \"grafana\", ats_token: \"grafanalabs\" },\n  { name: \"Anthropic\", careers_url: \"https://www.anthropic.com/careers\", ats: \"greenhouse\", github_org: \"anthropics\", ats_token: \"anthropic\" },\n];\nreturn accounts.slice(0, 20).map(account => ({ json: account }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -416,
+        -16
+      ],
+      "id": "96db3193-f150-4ff5-afbf-395891d24248",
+      "name": "Target List"
+    },
+    {
+      "parameters": {
+        "url": "=https://newsapi.org/v2/everything?q={{ $('Loop Over Items').item.json.name }}&sortBy=publishedAt&pageSize=5&language=en",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Api-Key",
+              "value": "<NEWS_API_KEY>"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -64,
+        -176
+      ],
+      "id": "ac4730fe-f3c8-43c4-bd5a-1651cadc7a0a",
+      "name": "NewsAPI Request"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.github.com/orgs/{{ $('Loop Over Items').item.json.github_org }}/repos?sort=updated&per_page=5\n",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer <GITHUB_TOKEN>"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -64,
+        -16
+      ],
+      "id": "f6e49be0-8f1c-48e5-a9f4-9645b23210ba",
+      "name": "GitHub Request",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "=https://boards-api.greenhouse.io/v1/boards/{{ $json.ats_token }}/jobs?content=false",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        160,
+        -496
+      ],
+      "id": "75303a77-236b-45c6-8f09-9e1f4dca7ab9",
+      "name": "Jobs Request - Greenhouse",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.ashbyhq.com/posting-api/job-board/{{ $('Target List').item.json.ats_token }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        160,
+        -352
+      ],
+      "id": "3994ec38-ec79-4b6f-8f86-f00dd8e34bdb",
+      "name": "Jobs Request - Ashby",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $input.first().json;\nconst prompt = `Analyze the following public signals for ${data.company} and score their demand potential from 0-100 based on evidence that they are actively building or scaling their go-to-market motion.\nHigh-weight signals:\n- Hiring for GTM, sales, RevOps, or marketing roles\n- Recent funding round (more budget, more tooling)\n- New sales or marketing leadership (new leaders buy new tools)\n- Product launches suggesting commercial expansion\n- Rapid headcount growth signals\nLow-weight signals:\n- General press coverage unrelated to commercial motion\n- Pure engineering activity with no GTM relevance\nGitHub Activity:\n${JSON.stringify(data.signals.github)}\nRecent News:\n${JSON.stringify(data.signals.news)}\nJob Postings (GTM roles only):\n${JSON.stringify(data.signals.jobs)}\nReturn JSON only, no other text, in this exact format:\n{\n  \"company_summary\": \"2-3 sentence snapshot based only on signals provided\",\n  \"intent_score\": 0,\n  \"tier\": \"high or medium or low\",\n  \"score_reasons\": [\"reason 1\", \"reason 2\"],\n  \"key_signals\": [\"signal 1\", \"signal 2\"],\n  \"missing_signals\": [\"what would strengthen this score\"]\n}`;\nconst response = await this.helpers.httpRequest({\n  method: 'POST',\n  url: 'https://api.anthropic.com/v1/messages',\n  headers: {\n    'x-api-key': '<ANTHROPIC_API_KEY>',\n    'anthropic-version': '2023-06-01',\n    'content-type': 'application/json'\n  },\n  body: JSON.stringify({\n    model: 'claude-sonnet-4-6',\n    max_tokens: 1000,\n    system: 'You are a senior sales intelligence analyst at an enterprise B2B GTM software company. Your job is to assess how likely a prospect company is to be actively in-market for GTM software. Base your analysis strictly on the signals provided. Do not use prior knowledge about the company beyond what is present in the data.',\n    messages: [{ role: 'user', content: prompt }]\n  })\n});\nconst content = response.content[0].text;\nconst cleaned = content.replace(/```json\\n?/g, '').replace(/```\\n?/g, '').trim();\nconst parsed = JSON.parse(cleaned);\nreturn [{\n  json: {\n    company: data.company,\n    careers_url: data.careers_url,\n    github_org: data.github_org,\n    signals: data.signals,\n    scoring: parsed\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        832,
+        -16
+      ],
+      "id": "73d7fe2e-952a-4506-8f34-ad25251ba00f",
+      "name": "Build Agent Prompt"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.ats }}",
+                    "rightValue": "greenhouse",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "2848132d-e4d2-4a69-b12e-0027e7a9f5b6"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "greenhouse"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "e9a58e93-0fd3-4adc-83c8-9b31f34ef59a",
+                    "leftValue": "={{ $json.ats }}",
+                    "rightValue": "ashby",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "ashby"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -80,
+        -368
+      ],
+      "id": "d5c30dc1-0055-4960-bf35-0a40e2368819",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "jsCode": "const company = $('Loop Over Items').item.json;\nconst data = $input.first().json || {};\n\nlet rawJobs = [];\nlet source = 'none';\n\nif (Array.isArray(data.jobs)) {\n  source = 'greenhouse';\n  rawJobs = data.jobs.map(j => ({\n    title: j.title,\n    location: j.location?.name,\n    posted_at: j.first_published,\n    url: j.absolute_url\n  }));\n} else if (Array.isArray(data.jobPostings)) {\n  source = 'ashby';\n  rawJobs = data.jobPostings.map(j => ({\n    title: j.title,\n    location: j.location,\n    posted_at: j.publishedAt,\n    url: j.jobUrl\n  }));\n}\n\nreturn [{\n  json: {\n    name: company.name,\n    careers_url: company.careers_url,\n    ats: company.ats,\n    ats_token: company.ats_token,\n    github_org: company.github_org,\n    jobs: { source, raw: rawJobs }\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        352,
+        -192
+      ],
+      "id": "1e7d525b-732b-4917-b7a4-04a0d3a81758",
+      "name": "Jobs Signal"
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = $input.first().json;\n\nconst gtmKeywords = ['sales','marketing','revenue','gtm','go-to-market','account executive','account manager','business development','demand generation','growth','partnerships','customer success','revops','sales ops','marketing ops'];\n\nconst allJobs = input.jobs?.raw || [];\nconst gtmJobs = allJobs.filter(j => {\n  const t = (j.title || '').toLowerCase();\n  return gtmKeywords.some(k => t.includes(k));\n});\n\nreturn [{\n  json: {\n    company: input.name,\n    careers_url: input.careers_url,\n    github_org: input.github_org,\n    signals: {\n      news: input.news?.articles || [],\n      github: input.github?.repos || [],\n      jobs: {\n        source: input.jobs?.source || 'none',\n        gtm_job_count: gtmJobs.length,\n        total_job_count: allJobs.length,\n        gtm_jobs: gtmJobs.slice(0, 10)\n      }\n    }\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        656,
+        -16
+      ],
+      "id": "5d67af6d-282d-45b7-a8d8-d6be56d3124b",
+      "name": "Signal Clean Up",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "fieldsToMatchString": "name",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        496,
+        -16
+      ],
+      "id": "d7cdbeaa-1ab6-4809-9853-38c9f38a615e",
+      "name": "Merge 2"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "fieldsToMatchString": "name",
+        "joinMode": "enrichInput1",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        272,
+        -16
+      ],
+      "id": "b597eee7-233f-470f-9392-5848338bfbd8",
+      "name": "Merge 1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const results = $input.all().map(item => item.json);\n\nconst sorted = results.sort((a, b) => \n  (b.scoring?.intent_score || 0) - (a.scoring?.intent_score || 0)\n);\n\nconst runId = new Date().toISOString();\n\nconst formatList = (arr) => Array.isArray(arr) \n  ? arr.map((item, i) => `${i + 1}. ${item}`).join('\\n')\n  : '';\n\nreturn sorted.map((c, i) => ({\n  json: {\n    run_id: runId,\n    rank: i + 1,\n    company: c.company,\n    intent_score: c.scoring?.intent_score ?? 0,\n    tier: c.scoring?.tier || '',\n    company_summary: c.scoring?.company_summary || '',\n    score_reasons: formatList(c.scoring?.score_reasons),\n    key_signals: formatList(c.scoring?.key_signals),\n    missing_signals: formatList(c.scoring?.missing_signals),\n    gtm_job_count: c.signals?.jobs?.gtm_job_count ?? 0,\n    total_job_count: c.signals?.jobs?.total_job_count ?? 0,\n    news_article_count: Array.isArray(c.signals?.news) ? c.signals.news.length : 0,\n    github_repo_count: Array.isArray(c.signals?.github) ? c.signals.github.length : 0,\n    careers_url: c.careers_url || '',\n    github_org: c.github_org || ''\n  }\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -64,
+        192
+      ],
+      "id": "e824f14f-95e4-4dfe-ad32-6e912a662421",
+      "name": "Agent Response Aggregator"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        96,
+        192
+      ],
+      "id": "91bb3da2-83ff-418a-b6a6-d7683d8aed1c",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $getWorkflowStaticData('global');  // 'global' not 'node'\nif (!data.results) data.results = [];\n\ndata.results.push($input.first().json);\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1008,
+        -16
+      ],
+      "id": "27a4a8a0-3294-4c99-9d48-23de0fe9111c",
+      "name": "Format Results"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Target List",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Agent Response Aggregator",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "GitHub Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "NewsAPI Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub Signals": {
+      "main": [
+        [
+          {
+            "node": "Merge 1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "News Signals": {
+      "main": [
+        [
+          {
+            "node": "Merge 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Target List": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NewsAPI Request": {
+      "main": [
+        [
+          {
+            "node": "News Signals",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub Request": {
+      "main": [
+        [
+          {
+            "node": "GitHub Signals",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Jobs Request - Greenhouse": {
+      "main": [
+        [
+          {
+            "node": "Jobs Signal",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Jobs Request - Ashby": {
+      "main": [
+        [
+          {
+            "node": "Jobs Signal",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Agent Prompt": {
+      "main": [
+        [
+          {
+            "node": "Format Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Jobs Request - Greenhouse",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Jobs Request - Ashby",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Jobs Signal",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Signal Clean Up": {
+      "main": [
+        [
+          {
+            "node": "Build Agent Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Jobs Signal": {
+      "main": [
+        [
+          {
+            "node": "Merge 2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge 2": {
+      "main": [
+        [
+          {
+            "node": "Signal Clean Up",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge 1": {
+      "main": [
+        [
+          {
+            "node": "Merge 2",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Agent Response Aggregator": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Results": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "dcb2d092-4f28-47fa-87f1-a5a23b83622d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "3499e1027dcfb10a881315e5955650cf3a04c624164cd14c19304da8af295e56"
+  },
+  "id": "X1hcCHuc9p6zcLWb",
+  "tags": []
+}
