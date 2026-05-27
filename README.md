@@ -24,8 +24,4 @@ Sales teams target hundreds of accounts but most lack a systematic way to surfac
 - **LLM:** Claude claude-sonnet-4-6 via Anthropic API
 - **Signal sources:** GitHub API, NewsAPI, Job Board ATS APIs (Greenhouse, Ashby)
 - **Config:** YAML
-<<<<<<< HEAD
 - **Output:** Google Sheets/CSV File (Set up for easy future Snowflake integration)
-=======
-- **Output:** Google Sheets/CSV File (Set up for easy future Snowflake integration)
->>>>>>> d17ca925195b5e11c3f368ab9b608328a2faf628
