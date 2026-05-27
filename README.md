@@ -4,11 +4,18 @@ An autonomous account intelligence pipeline built with n8n and Claude. Given a l
 
 ## Architecture
 
--- In Progress -- 
+For each target enterprise customer, the workflow runs three parallel process branches inside a 
+loop: news collection, GitHub activity, and ATS-routed job postings via a Switch 
+node (Greenhouse API or Ashby API). Signals are merged by company name, cleaned, and sent to Claude. For each interation, results accumulate via the loop's done output, where they're sorted by intent score 
+and appended to a completed Google Sheets or CSV file output.
+
+# n8n Node Diagram 
+
+<img width="1329" height="668" alt="image" src="https://github.com/user-attachments/assets/f7de80ce-65ff-4d6b-9e55-44a326678590" />
 
 ## Problem Being Addressed
 
-Sales teams target hundreds of accounts but most lack a systematic way to surface which ones are showing key buying signals right now and focus their efforts on enterprises with the highest demand for the product.
+Sales teams target hundreds of accounts but most lack a systematic way to surface which ones are showing key buying signals right now and focus their efforts on enterprises with the highest demand for their product.
 
 ## Signal Sources
 
