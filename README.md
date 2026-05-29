@@ -44,7 +44,7 @@ Top 3 by intent score:
 | 2 | Databricks | 88 | High | 139 of 768 | Industry-specific GTM leaders across APAC, EMEA, LATAM signal segmented enterprise motion |
 | 3 | Hightouch | 88 | High | 34 of 64 | 53% GTM hiring ratio plus new 18,000 SF NYC office and dedicated AI Operations GTM role |
 
-Full example output briefs are in output/examples/, including reasoning, signal breakdown, and missing-signal monitoring.
+Full example output briefs are in the repo root: [anthropic_account_brief.md](anthropic_account_brief.md), [fivetran_account_brief.md](fivetran_account_brief.md), including reasoning, signal breakdown, and missing-signal monitoring.
 
 Note: The agent weighs GTM hiring intensity, not just volume. For example, Hightouch (34 roles) ties Databricks (139 roles) because 53% of Hightouch's open postings are GTM-focused, signaling concentrated commercial investment rather than broad scaling.
 
