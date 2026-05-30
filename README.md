@@ -23,7 +23,7 @@ and appended to a completed Google Sheets or CSV file output.
 
 ## 4. n8n Node Diagram 
 
-<img width="1329" height="668" alt="image" src="https://github.com/user-attachments/assets/f7de80ce-65ff-4d6b-9e55-44a326678590" />
+<img width="1967" height="1027" alt="image" src="https://github.com/user-attachments/assets/274e401d-47cf-48a4-b03c-7d1945b35782" />
 
 ## 5. Signal Sources
 
